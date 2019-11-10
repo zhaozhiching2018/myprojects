@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+	<title>风云排行榜</title>
+
+	<!-- Bootstrap 核心CSS文件 -->
+	<link href="{% static 'novel/css/bootstrap.min.css' %}" rel="stylesheet">
+	<script type="text/javascript" src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+
+	<style type="text/css">
+    
+          body{
+          	background: url("{% static 'novel/image/1.jpg' %}");
+            background-attachment: fixed;
+          	background-size: 100%;
+          }
+
+          .fa{display: inline-block;top: 27px;left: 6px;position: relative;color: #ccc;}
+          input[type="text"],input[type="password"]{padding-left:26px;}
+          #checkbox{padding-left:21px;}
+
+          .form-signin-heading{
+          	text-align: center;
+          	color: #337ab7;
+          }
+          h3{
+          	display: inline-block;    
+          	margin:80px auto 0;
+          }
+          .the_title{
+          	margin-top: 30px;
+          	/*background: rgba(255,255,255,0.7);*/
+          }
+          .tabbable{
+          	margin: 40px auto 0;
+          	background: rgba(255,255,255,0.7);
+          }
+          .one,.two{
+          	background: rgba(255,255,255,0.9);
+          }
+          .footer{
+          	background: rgba(255,255,255,0.8);
+          	position: fixed;
+          	left: 460px;
+          	bottom: 6px;
+          }
+          .zj{
+            position: relative;
+            /*color: #9f00ff;*/
+            text-decoration: none;
+            display: block;
+            /*padding: 10px 20px;*/ 
+            border: 1px solid #dedede;
+            transition: all 0.6s ease-in;
+        }
+        .zj:before,.zj:after{
+            content: '';
+            display: block;
+            position: relative;
+            box-sizing: border-box;
+            border: 1px solid transparent;
+            width: 0;
+            height: 0;
+        }
+        .zj:before {
+          bottom: 0;
+          right: 0;
+          transition: border-color 0s ease-in 0.4s,width 0.2s ease-in 0.2s,height 0.2s ease-in;
+      }
+      .zj:after{
+          top: 0;
+          left: 0;
+          transition: border-color 0s ease-in 0.8s,width 0.2s ease-in 0.6s,height 0.2s ease-in 0.4s;
+      }
+      .zj:hover:after,.zj:hover:before {
+          width: 100%;
+          height: 100%;
+      }
+      .zj:hover:before {
+          border-bottom-color: #31708f;
+          border-left-color: #31708f;
+          transition: border-color 0s ease-out 0.4s,width 0.2s ease-out 0.4s,height 0.2s ease-out 0.6s;
+      }
+      .zj:hover:after {
+          border-top-color: #31708f;
+          border-right-color: #31708f;
+          transition: width 0.2s ease-out,height 0.2s ease-out 0.2s;
+      }
+      </style>
+  </head>
+
+  <body>
+
+  	<div class="container">
+  		<div class="row tabbable">
+  			<h2 class="form-signin-heading the_title">小说风云榜</h2>
+        
+  			<div class="col-sm-6 col-md-3">
+  				<h4 class="" style="text-align: left;color: #337ab7;">搜索小说</h4>
+  				<form class="form-signin" action="{% url 'novel:search' %}" method="post" style="margin-top: -16px;">
+                            {% csrf_token %}
+                            <i class="fa fa-user fa-lg"></i>
+                            <label for="inputName" class="sr-only">关键字：</label>
+                            <input type="text" name="novel_name" id="inputName" class="form-control" placeholder="请输入关键字" required autofocus>
+
+                            <!-- <i class="fa fa-user fa-lg"></i> -->
+                            <a href="{% url 'novel:home' %}"><button class="btn btn-info pull-right" type="button" style="margin-top: 12px;">排行榜</button></a>
+                            <button class="btn btn-warning pull-right" style="margin-top: 12px;" type="submit">一键搜索</button>
+
+                        </form>
+        <h3 style="color: #337ab7;">最近更新</h3>
+        {% for bk_nm,value in zx_dict.items %}
+        <div class="thumbnail zj">
+          <div class="caption">
+            <h4 style="margin: 0 auto 0">书名：<a href="{{value.fenj_url.0}}/{{value.fenj_url.1}}">{{bk_nm}}</a></h4>
+            <p  style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">作者：{{value.au_reg}}<br>
+              类型：{{value.ty_reg}}<br>
+                更新日期：{{value.tm_reg}}<br>
+                <a href="{{value.zxzj_reg}}">最新章节：{{value.cata_reg}}</a>
+                </p>
+          </div>
+        </div>
+        {% endfor %}  
+  			</div>
+  			<div class="col-md-9">
+  			{% for book_name,value in last_dict.items %}
+  			<div class="col-md-3">
+  				<div class="thumbnail">
+  					<img src="{{value.img_url}}" style="margin-top: 10px;width: 160px;height: 188px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;" alt="...">
+  					<div class="caption">
+						<h4 style="margin: 0 auto 0">书名：<a href="{{value.fenjie_url.0}}/{{value.fenjie_url.1}}">{{book_name}}</a></h4>
+                <p></p>
+  							<p><a href="{{value.detail_url}}" class="btn btn-primary btn-sm" role="button">阅读全书</a> <a href="{{value.fenjie_url.0}}/{{value.fenjie_url.1}}/download/" class="btn btn-info btn-sm" role="button" target="view_window" download="{{book_name}}.txt" onclick="myfun()">下载TXT</a></p>
+
+  					</div>
+  				</div>
+  			</div>
+  			{% endfor %}
+        </div>
+  		</div>
+  		
+  	</div>
+  	<script type="text/javascript">
+  		function myfun(){
+  			// alert('正在下载，请稍等...')
+  			swal('正在下载，请稍等...')
+  		}
+  	</script>
+  	<script type="text/javascript" src="{% static 'novel/js/jquery-3.3.1.min.js' %}"></script>
+  	<!-- Bootstrap部分： -->
+  	<script type="text/javascript" src="{% static 'novel/js/bootstrap.min.js' %}"></script>
+  </body>
+  </html>

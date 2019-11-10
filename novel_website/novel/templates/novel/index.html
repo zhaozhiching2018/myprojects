@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>小说搜索页</title>
+    <link href="{% static 'novel/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'novel/css/1.css' %}" rel="stylesheet">
+    <style type="text/css">
+ 
+        body{
+            background: url("{% static 'novel/image/1.jpg' %}");
+            background-size: cover;
+        }
+
+        .btn{
+        	font-size: 20px;
+        	margin-top: 20px;
+        }
+
+     </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <form class="form-signin" action="{% url 'novel:search'%}" method="post">
+      {%csrf_token%}
+      <h2 class="form-signin-heading">小说搜索首页</h2>
+        <label for="inputPassword" class="sr-only">关键字</label>
+        <input type="text" id="inputPassword" class="form-control" placeholder="搜索关键字" required name="novel_name">
+        <a href="{% url 'novel:home' %}"><button class="btn btn-success pull-right" type="button">排行榜</button></a>
+        <button class="btn btn-primary pull-right" type="submit">搜索</button>
+      </form>
+
+    </div>
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

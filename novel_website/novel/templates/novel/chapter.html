@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+
+  <title>小说章节阅读</title>
+
+  <!-- Bootstrap 核心CSS文件 -->
+  <link href="{% static 'novel/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <style type="text/css">
+
+          body{
+            background: url("{% static 'novel/image/1.jpg' %}");
+            background-attachment: fixed;
+            background-size: 100%;
+          }
+
+          .fa{display: inline-block;top: 27px;left: 6px;position: relative;color: #ccc;}
+          input[type="text"],input[type="password"]{padding-left:26px;}
+          #checkbox{padding-left:21px;}
+          
+          .form-signin-heading{
+            text-align: center;
+            color: #337ab7;
+          }
+          h3{
+            display: inline-block;    
+            margin:120px auto 0;
+          }
+          .the_title{
+            margin-top: 30px;
+            background: rgba(255,255,255,0.7);
+          }
+          .tabbable{
+            margin: 40px auto 0;
+            background: rgba(255,255,255,0.8);
+          }
+          .one,.two{
+            background: rgba(255,255,255,0.9);
+          }
+          .footer{
+            background: rgba(255,255,255,0.8);
+            position: fixed;
+            left: 460px;
+            bottom: 6px;
+          }
+          .footer .foot{
+            margin: 0 auto;
+          }
+        </style>
+      </head>
+
+      <body>
+
+       <div class="container">
+         <div class="row">
+          <h2 align="center">{{chapter_title.0}} <small></small></h2>
+          <div class="col-md-12 tabbable">
+            <nav aria-label="Page navigation" align='center'>
+              <ul class="pagination">
+                <li><a href="/novel/search/{{previous_page.0.0}}">上一页</a></li>
+                <li><a href="/novel/search/{{previous_page.0.1}}">回到章节目录</a></li>
+                <li><a href="/novel/search/{{previous_page.0.2}}">下一页</a></li>
+              </ul>
+            </nav>
+            <p class="lead">{{chapter_content.0|safe}}</p>
+            <nav aria-label="Page navigation" align='center'>
+              <ul class="pagination">
+                <li><a href="/novel/search/{{previous_page.0.0}}">上一页</a></li>
+                <li><a href="/novel/search/{{previous_page.0.1}}">回到章节目录</a></li>
+                <li><a href="/novel/search/{{previous_page.0.2}}">下一页</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      <!-- 引用的样式部分，不属于内容： -->
+      <!-- jquery部分： -->
+      <script type="text/javascript" src="{% static 'novel/js/jquery-3.3.1.min.js' %}"></script>
+      <!-- Bootstrap部分： -->
+      <script type="text/javascript" src="{% static 'novel/js/bootstrap.min.js' %}"></script>
+    </body>
+    </html>

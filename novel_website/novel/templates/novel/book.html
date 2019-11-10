@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+
+    <title>小说章节页面</title>
+
+    <!-- Bootstrap 核心CSS文件 -->
+    <link href="{% static 'novel/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script type="text/javascript" src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <style type="text/css">
+
+          body{
+            background: url("{% static 'novel/image/1.jpg' %}");
+            background-attachment: fixed;
+            background-size: 100%;
+        }
+
+        .fa{display: inline-block;top: 27px;left: 6px;position: relative;color: #ccc;}
+        input[type="text"],input[type="password"]{padding-left:26px;}
+        #checkbox{padding-left:21px;}
+        
+        .form-signin-heading{
+            text-align: center;
+            color: #337ab7;
+        }
+        h3{
+            display: inline-block;    
+            margin:120px auto 0;
+        }
+        .the_title{
+            margin-top: 30px;
+            background: rgba(255,255,255,0.7);
+        }
+        .tabbable{
+            margin: 10px auto 0;
+            padding-top: 20px;
+            background: rgba(255,255,255,0.6);
+        }
+        .one,.two{
+            background: rgba(255,255,255,0.9);
+        }
+        .footer{
+            background: rgba(255,255,255,0.8);
+            position: fixed;
+            left: 460px;
+            bottom: 6px;
+        }
+        .footer .foot{
+            margin: 0 auto;
+        }
+        .zj{
+            border:1px solid rgba(255,255,255,1);
+        }
+        .a12{
+            animation-name:myanimation;
+            animation-duration:12s;
+            /*变换时间*/
+            animation-delay:2s;
+            /*动画开始时间*/
+            animation-iteration-count:infinite;
+            /*下一周期循环播放*/
+            animation-play-state:running;
+            /*动画开始运行*/
+        }
+        @keyframes myanimation{
+            0%   {left: 300px;}
+            34%  {left: 450px;}
+            67%  {left: 600px;}
+            100% {left: 450px;}
+        }
+        /*.zj{
+            margin-right: 10px;
+            display: inline-block;
+        }*/
+        .zj{
+            position: relative;
+            /*color: #9f00ff;*/
+            text-decoration: none;
+            display: block;
+            /*padding: 10px 20px;*/ 
+            border: 1px solid #dedede;
+            transition: all 0.6s ease-in;
+        }
+        .zj:before,.zj:after{
+            content: '';
+            display: block;
+            position: absolute;
+            box-sizing: border-box;
+            border: 1px solid transparent;
+            width: 0;
+            height: 0;
+        }
+        .zj:before {
+          bottom: 0;
+          right: 0;
+          transition: border-color 0s ease-in 0.4s,width 0.2s ease-in 0.2s,height 0.2s ease-in;
+      }
+      .zj:after{
+          top: 0;
+          left: 0;
+          transition: border-color 0s ease-in 0.8s,width 0.2s ease-in 0.6s,height 0.2s ease-in 0.4s;
+      }
+      .zj:hover:after,.zj:hover:before {
+          width: 100%;
+          height: 100%;
+      }
+      .zj:hover:before {
+          border-bottom-color: #31708f;
+          border-left-color: #31708f;
+          transition: border-color 0s ease-out 0.4s,width 0.2s ease-out 0.4s,height 0.2s ease-out 0.6s;
+      }
+      .zj:hover:after {
+          border-top-color: #31708f;
+          border-right-color: #31708f;
+          transition: width 0.2s ease-out,height 0.2s ease-out 0.2s;
+      }
+  </style>
+</head>
+
+<body>
+
+   <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 align="center">{{book_name.0}} <small>作者：{{book_author.0}}</small></h2>
+            <div class="col-sm-6 col-md-3">
+                <h4 class="" style="text-align: left;color: #337ab7;">重新搜索</h4>
+                <form class="form-signin" action="{% url 'novel:search' %}" method="post" style="margin-top: -16px;">
+                            {% csrf_token %}
+                            <i class="fa fa-user fa-lg"></i>
+                            <label for="inputName" class="sr-only">账号：</label>
+                            <input type="text" name="novel_name" id="inputName" class="form-control" placeholder="请输入关键字" required autofocus>
+
+                            <a href="{% url 'novel:home' %}"><button class="btn btn-info pull-right" type="button" style="margin-top: 12px;">排行榜</button></a>
+                            <button class="btn btn-warning pull-right" style="margin-top: 12px;" type="submit">一键搜索</button>
+
+                        </form>
+            </div>
+            <img src="{{novel_img.0}}" class="a12" style="width: 160px;height: 188px;position: relative;left: 300px;">
+        </div>
+    </div>
+
+    <div class="row tabbable">
+
+            {%for i in book_info%}
+
+            <div class="col-md-3" style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">    
+                    <a href ='{{i.0}}' style="text-decoration: none;"><div class="alert alert-info zj" style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;" align="center" role="alert">{{i.1}}
+                    </div></a>              
+                </div>
+                {%endfor%}  
+            </div>
+        </div>
+        </div> 
+
+    <!-- 引用的样式部分，不属于内容： -->
+    <!-- jquery部分： -->
+    <script type="text/javascript" src="{% static 'novel/js/jquery-3.3.1.min.js' %}"></script>
+    <!-- Bootstrap部分： -->
+    <script type="text/javascript" src="{% static 'novel/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
