@@ -14,9 +14,7 @@ artical_similaer文章相似度比较,主要利用gensim
 Gensim内置了多种主题模型的向量变换，包括LDA，LSI，RP，HDP等。这些模型通常以bow向量或tfidf向量的语料为输入，生成相应的主题向量。所有的模型都支持流式计算。
 在得到每一篇文档对应的主题向量后，我们就可以计算文档之间的相似度，进而完成如文本聚类、信息检索之类的任务。在Gensim中，也提供了这一类任务的API接口。
 首先，我们需要将待检索的query和文本放在同一个向量空间里进行表达（以LSI向量空间为例）：
-# 构造LSI模型并将待检索的query和文本转化为LSI主题向量
-# 转换之前的corpus和query均是BOW向量
-lsi_model = models.LsiModel(corpus, id2word=dictionary,          num_topics=2)
+lsi_model = models.LsiModel(corpus, id2word=dictionary,num_topics=2)
 documents = lsi_model[corpus]
 query_vec = lsi_model[query]
 接下来，我们用待检索的文档向量初始化一个相似度计算的对象：
